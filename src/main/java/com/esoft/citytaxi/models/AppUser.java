@@ -1,5 +1,6 @@
 package com.esoft.citytaxi.models;
 
+import com.esoft.citytaxi.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,9 @@ public class AppUser implements Serializable {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "user_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
 }
