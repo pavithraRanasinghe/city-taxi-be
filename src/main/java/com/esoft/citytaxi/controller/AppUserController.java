@@ -7,6 +7,7 @@ import com.esoft.citytaxi.models.AppUser;
 import com.esoft.citytaxi.security.JwtTokenUtil;
 import com.esoft.citytaxi.security.JwtUserDetailsService;
 import com.esoft.citytaxi.services.AppUserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,21 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("v1/app-user")
 @Slf4j
+@RequiredArgsConstructor
 public class AppUserController {
 
     private final AppUserService appUserService;
     private final JwtUserDetailsService userDetailsService;
 
     private final JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    public AppUserController(final AppUserService appUserService,
-                             final JwtUserDetailsService userDetailsService,
-                             final JwtTokenUtil jwtTokenUtil) {
-        this.appUserService = appUserService;
-        this.userDetailsService = userDetailsService;
-        this.jwtTokenUtil = jwtTokenUtil;
-    }
 
     /**
      * Post mapping request for save new application user
