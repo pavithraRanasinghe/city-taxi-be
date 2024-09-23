@@ -2,6 +2,7 @@ package com.esoft.citytaxi.models;
 
 import com.esoft.citytaxi.enums.TripStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -17,6 +18,7 @@ import org.n52.jackson.datatype.jts.GeometrySerializer;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -76,6 +78,11 @@ public class Trip extends Audit implements Serializable {
 
     @Column(name = "price")
     private double price;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToMany(mappedBy = "trip", orphanRemoval = true)
+    private List<Feedback> feedbackList;
 
 }
 
