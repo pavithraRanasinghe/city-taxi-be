@@ -1,8 +1,9 @@
 package com.esoft.citytaxi.services;
 
-import com.esoft.citytaxi.dto.request.DriverRequest;
+import com.esoft.citytaxi.dto.request.BasicUserRequest;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.repository.DriverRepository;
+import com.esoft.citytaxi.util.LocationUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +21,11 @@ public class DriverService {
 
     private final DriverRepository driverRepository;
 
-    private final GeometryFactory geometryFactory = new GeometryFactory();
-
-    public Driver saveDriver(final DriverRequest driverRequest) {
+    public Driver saveDriver(final BasicUserRequest basicUserRequest) {
         return driverRepository.save(Driver.builder()
-                .firstName(driverRequest.getFirstName())
-                .lastName(driverRequest.getLastName())
-                .contact(driverRequest.getContact())
-                .location(mapToPoint(driverRequest.getLongitude(), driverRequest.getLatitude()))
+                .firstName(basicUserRequest.getFirstName())
+                .lastName(basicUserRequest.getLastName())
+                .contact(basicUserRequest.getContact())
                 .build());
     }
 
@@ -38,7 +36,7 @@ public class DriverService {
 
     public void updateDriverLocation(final Long id, final double longitude, final double latitude) {
         Driver driver = findById(id);
-        driver.setLocation(mapToPoint(longitude, latitude));
+        driver.setLocation(LocationUtil.mapToPoint(longitude, latitude));
 
         driverRepository.save(driver);
     }
@@ -47,10 +45,5 @@ public class DriverService {
         return driverRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Driver not found"));
     }
 
-    private Point mapToPoint(final double longitude, final double latitude) {
-        Coordinate coordinate = new Coordinate(longitude, latitude);
-        Point point = geometryFactory.createPoint(coordinate);
-        point.setSRID(4326);
-        return point;
-    }
+
 }

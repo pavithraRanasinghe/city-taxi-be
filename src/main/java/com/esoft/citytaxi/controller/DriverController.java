@@ -1,6 +1,6 @@
 package com.esoft.citytaxi.controller;
 
-import com.esoft.citytaxi.dto.request.DriverRequest;
+import com.esoft.citytaxi.dto.request.BasicUserRequest;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.services.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +20,8 @@ public class DriverController {
     private final DriverService driverService;
 
     @PostMapping
-    public ResponseEntity<?> saveDriver(@RequestBody final DriverRequest driverRequest){
-        Driver driver = driverService.saveDriver(driverRequest);
+    public ResponseEntity<?> saveDriver(@RequestBody final BasicUserRequest basicUserRequest){
+        Driver driver = driverService.saveDriver(basicUserRequest);
         return new ResponseEntity<>(driver, HttpStatus.CREATED);
     }
 

@@ -2,14 +2,15 @@ package com.esoft.citytaxi.services;
 
 import com.esoft.citytaxi.dto.request.AppUserRequest;
 import com.esoft.citytaxi.dto.request.AuthRequest;
+import com.esoft.citytaxi.dto.request.BasicUserRequest;
+import com.esoft.citytaxi.enums.UserType;
 import com.esoft.citytaxi.exceptions.EntityExistsException;
 import com.esoft.citytaxi.exceptions.EntityNotFoundException;
-import com.esoft.citytaxi.exceptions.NotFoundException;
 import com.esoft.citytaxi.exceptions.UnAuthorizedException;
 import com.esoft.citytaxi.models.AppUser;
 import com.esoft.citytaxi.repository.AppUserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +18,13 @@ import java.util.Objects;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public AppUserService(AppUserRepository appUserRepository,
-                          final PasswordEncoder passwordEncoder) {
-        this.appUserRepository = appUserRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    private final DriverService driverService;
+    private final PassengerService passengerService;
     /**
      * Method for save application user
      *
@@ -49,6 +45,17 @@ public class AppUserService {
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .build();
 
+        if(UserType.DRIVER.equals(appUser.getUserType())){
+            driverService.saveDriver(BasicUserRequest.builder()
+                            .firstName(appUser.getFirstName())
+                            .lastName(appUser.getLastName())
+                            .contact(userRequest.getContact()).build());
+        }else if(UserType.PASSENGER.equals(appUser.getUserType())) {
+            passengerService.savePassenger(BasicUserRequest.builder()
+                    .firstName(appUser.getFirstName())
+                    .lastName(appUser.getLastName())
+                    .contact(userRequest.getContact()).build());
+        }
         return appUserRepository.save(appUser);
     }
 

@@ -11,14 +11,12 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DriverRequest implements Serializable {
+public class BasicUserRequest implements Serializable {
+    private Long id;
+
     private String firstName;
 
     private String lastName;
 
     private String contact;
-
-    private Double longitude;
-
-    private Double latitude;
 }
