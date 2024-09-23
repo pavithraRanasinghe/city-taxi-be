@@ -34,4 +34,7 @@ public class AppUser extends Audit implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @Column(name = "password_opt")
+    public int passwordOtp;
+
 }

@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/app-user")
@@ -48,5 +45,25 @@ public class AppUserController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(existingUser.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(existingUser, token));
+    }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<?> forgotPassword(@PathVariable final String email){
+        appUserService.forgotPassword(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{email}/verify-otp")
+    public ResponseEntity<?> verifyOtp(@PathVariable final String email,
+                                       @RequestParam("otp") final int otp){
+        appUserService.verifyOtp(email, otp);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{email}/update-password")
+    public ResponseEntity<?> verifyOtp(@PathVariable final String email,
+                                       @RequestParam("password") final String password){
+        appUserService.updatePassword(email, password);
+        return ResponseEntity.ok().build();
     }
 }
