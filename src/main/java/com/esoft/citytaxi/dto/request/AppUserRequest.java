@@ -16,6 +16,7 @@ public class AppUserRequest implements Serializable {
     private String firstName;
     private String lastName;
     private String username;
+    private String password;
     private String contact;
     private UserType userType;
 }

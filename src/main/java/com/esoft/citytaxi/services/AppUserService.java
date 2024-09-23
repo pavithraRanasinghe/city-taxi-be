@@ -48,16 +48,14 @@ public class AppUserService {
         if(Objects.nonNull(registeredUser))
             throw new EntityExistsException("User already registered ", userRequest.getUsername());
 
-        final String password = PasswordUtil.generatePassword(8);
         final AppUser appUser = AppUser.builder()
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .username(userRequest.getUsername())
                 .userType(userRequest.getUserType())
-                .password(passwordEncoder.encode(password))
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .build();
 
-        emailUserPassword(appUser, password);
 
         if(UserType.DRIVER.equals(appUser.getUserType())){
             driverService.saveDriver(BasicUserRequest.builder()
