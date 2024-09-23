@@ -42,4 +42,9 @@ public class Driver extends Audit implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "driver", orphanRemoval = true)
     private List<Trip> tripList;
+
+    @OneToOne
+    @ToString.Exclude
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 }

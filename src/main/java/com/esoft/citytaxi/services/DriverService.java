@@ -45,5 +45,8 @@ public class DriverService {
         return driverRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Driver not found"));
     }
 
+    public Driver updateDriver(final Driver driver){
+        return driverRepository.save(driver);
+    }
 
 }
