@@ -12,13 +12,14 @@ import org.n52.jackson.datatype.jts.GeometrySerializer;
 import java.io.Serializable;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
 @Entity(name = "driver")
-public class Driver implements Serializable {
+public class Driver extends Audit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

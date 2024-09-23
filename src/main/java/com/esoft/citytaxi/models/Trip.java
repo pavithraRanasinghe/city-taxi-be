@@ -21,12 +21,12 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
 @Entity(name = "trip")
-public class Trip implements Serializable {
+public class Trip extends Audit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

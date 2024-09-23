@@ -7,13 +7,14 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
 @Entity(name = "passenger")
-public class Passenger implements Serializable {
+public class Passenger extends Audit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
