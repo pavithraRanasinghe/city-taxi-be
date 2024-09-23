@@ -30,4 +30,13 @@ public class TripController {
         tripService.updateTripStatus(id, status);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/end-trip")
+    public ResponseEntity<?> endTrip(@PathVariable final Long id,
+                                     @RequestParam("longitude") final double longitude,
+                                     @RequestParam("latitude") final double latitude,
+                                     @RequestParam("price") final double price){
+        Trip trip = tripService.endTrip(id, longitude, latitude, price);
+        return new ResponseEntity<>(trip, HttpStatus.OK);
+    }
 }

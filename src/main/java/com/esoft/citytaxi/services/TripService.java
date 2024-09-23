@@ -50,4 +50,15 @@ public class TripService {
         return tripRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Trip not found"));
     }
+
+    public Trip endTrip(final Long id, final double endLongitude, final double endLatitude, final double price){
+        Trip trip = findById(id);
+        trip.setEndLocation(LocationUtil.mapToPoint(endLongitude,endLatitude));
+        trip.setPrice(price);
+        trip.setStatus(TripStatus.COMPLETE);
+        trip.setEndTime(LocalTime.now());
+
+        return tripRepository.save(trip);
+
+    }
 }

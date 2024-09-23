@@ -74,6 +74,9 @@ public class Trip extends Audit implements Serializable {
     @JoinColumn(name = "passenger_id", nullable = false)
     private Passenger passenger;
 
+    @Column(name = "price")
+    private double price;
+
 }
 
 
