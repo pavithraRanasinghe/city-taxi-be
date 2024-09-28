@@ -1,15 +1,13 @@
 package com.esoft.citytaxi.services;
 
 import com.esoft.citytaxi.dto.request.BasicUserRequest;
+import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.repository.DriverRepository;
 import com.esoft.citytaxi.util.LocationUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +43,22 @@ public class DriverService {
         return driverRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Driver not found"));
     }
 
-    public Driver updateDriver(final Driver driver){
+    public void updateDriver(final Driver driver){
+        driverRepository.save(driver);
+    }
+
+    public List<Driver> findAll(){
+        return driverRepository.findAll();
+    }
+
+    public long count(){
+        return driverRepository.count();
+    }
+
+    public Driver updateStatus(final Long id, final DriverStatus status){
+        Driver driver = this.findById(id);
+        driver.setStatus(status);
+
         return driverRepository.save(driver);
     }
 

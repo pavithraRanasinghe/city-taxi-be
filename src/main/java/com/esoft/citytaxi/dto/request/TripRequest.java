@@ -15,6 +15,8 @@ public class TripRequest implements Serializable {
     private double startLatitude;
     private double endLongitude;
     private double endLatitude;
+    private String startLocationName;
+    private String endLocationName;
     private Long driverId;
     private Long passengerId;
 }

@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.request.BasicUserRequest;
+import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.services.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,23 @@ public class DriverController {
                                             @RequestParam("longitude") final double latitude){
         driverService.updateDriverLocation(id, longitude, latitude);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Driver> findById(@PathVariable Long id){
+        Driver driver = driverService.findById(id);
+        return ResponseEntity.ok(driver);
+    }
+
+    @GetMapping
+    public List<Driver> findAll(){
+        return driverService.findAll();
+    }
+
+    @PutMapping("/{id}/update-status")
+    public ResponseEntity<Driver> updateStatus(@PathVariable final Long id,
+                                               @RequestParam("status") final DriverStatus status){
+        Driver driver = driverService.updateStatus(id, status);
+        return ResponseEntity.ok(driver);
     }
 }

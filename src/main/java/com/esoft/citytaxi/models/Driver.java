@@ -1,5 +1,6 @@
 package com.esoft.citytaxi.models;
 
+import com.esoft.citytaxi.enums.DriverStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -47,4 +48,7 @@ public class Driver extends Audit implements Serializable {
     @ToString.Exclude
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
+
+    @Column(name = "status")
+    private DriverStatus status;
 }

@@ -62,6 +62,12 @@ public class Trip extends Audit implements Serializable {
     @JsonDeserialize(using = GeometryDeserializer.class)
     private Point endLocation;
 
+    @Column(name = "start_location_name")
+    private String startLocationName;
+
+    @Column(name = "end_location_name")
+    private String endLocationName;
+
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private TripStatus status;

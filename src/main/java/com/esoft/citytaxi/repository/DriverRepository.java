@@ -10,7 +10,8 @@ import java.util.List;
 public interface DriverRepository extends JpaRepository<Driver, Long> {
 
     @Query(value = "SELECT * FROM driver WHERE " +
-            "ST_DWithin(location, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :distance) ",
+            "ST_DWithin(location, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), :distance) " +
+            "AND status = 'AVAILABLE'",
             nativeQuery = true)
     List<Driver> searchDrivers(@Param("longitude") double longitude,
                                 @Param("latitude") double latitude,
