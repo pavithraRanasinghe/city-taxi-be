@@ -18,6 +18,9 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     @Query("SELECT COUNT(t) FROM trip t WHERE t.status IN (:statuses)")
     long countOngoingTrips(@Param("statuses") List<TripStatus> statuses);
 
+    @Query("SELECT COUNT(t) FROM trip t WHERE t.driver.id = :driverId AND t.status IN (:statuses)")
+    long findOngoingTripsByDriverId(@Param("driverId") Long driverId, @Param("statuses") List<TripStatus> statuses);
+
     @Query("SELECT SUM(t.price) FROM trip t")
     Double findTotalEarnings();
 
@@ -26,4 +29,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     @Query("SELECT t FROM trip t ORDER BY t.date DESC, t.startTime DESC")
     List<Trip> findRecentTrips(Pageable pageable);
+
+    @Query("SELECT t FROM trip t WHERE t.driver.id = :driverId AND t.status = :status")
+    List<Trip> findTripsByDriverIdAndStatus(@Param("driverId") Long driverId, @Param("status") TripStatus status);
 }

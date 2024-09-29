@@ -7,10 +7,10 @@ import java.io.Serializable;
 
 @Data
 @Builder
-public class DashboardResponse implements Serializable {
+public class DriverDashboardResponse implements Serializable {
 
-    private long driverCount;
-    private long passengerCount;
+    private long completedTripCount;
+    private double rating;
     private long onGoingTripCount;
     private double totalEarning;
 }

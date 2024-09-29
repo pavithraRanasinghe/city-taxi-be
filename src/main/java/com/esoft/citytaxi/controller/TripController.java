@@ -52,4 +52,9 @@ public class TripController {
     public List<DriverActivityResponse> findRecentDriverActivity(){
         return tripService.getRecentTripsByDriver();
     }
+
+    @GetMapping("/trips/driver")
+    public List<Trip> getTripsByDriverIdAndStatus(@RequestParam("driverId") Long driverId, @RequestParam("status") TripStatus status) {
+        return tripService.getTripsByDriverIdAndStatus(driverId, status);
+    }
 }

@@ -16,4 +16,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     @Query("SELECT f FROM feedback f ORDER BY f.trip.date DESC, f.trip.startTime DESC")
     List<Feedback> findRecentFeedbacks(Pageable pageable);
+
+    @Query("SELECT AVG(f.rate) FROM feedback f JOIN f.trip t WHERE t.driver.id = :driverId")
+    Double calculateAverageRatingByDriverId(@Param("driverId") Long driverId);
 }

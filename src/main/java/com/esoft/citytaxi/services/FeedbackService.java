@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -53,5 +54,10 @@ public class FeedbackService {
                 .comment(feedback.getComment())
                 .date(feedback.getDate())
                 .time(feedback.getTime()).build()).toList();
+    }
+
+    public double getAverageRatingByDriverId(Long driverId) {
+        Double rate = feedbackRepository.calculateAverageRatingByDriverId(driverId);
+        return Objects.nonNull(rate) ? rate: 0;
     }
 }

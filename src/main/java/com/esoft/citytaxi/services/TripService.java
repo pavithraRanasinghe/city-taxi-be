@@ -82,6 +82,10 @@ public class TripService {
         return tripRepository.countOngoingTrips(ongoingStatuses);
     }
 
+    public long getTripCountByDriverIdAndStatusList(Long driverId, List<TripStatus> statusList) {
+        return tripRepository.findOngoingTripsByDriverId(driverId, statusList);
+    }
+
     public Double getTotalEarnings() {
         return tripRepository.findTotalEarnings();
     }
@@ -100,5 +104,9 @@ public class TripService {
                 .startLocationName(trip.getStartLocationName())
                 .endLocationName(trip.getEndLocationName())
                 .build()).toList();
+    }
+
+    public List<Trip> getTripsByDriverIdAndStatus(Long driverId, TripStatus status) {
+        return tripRepository.findTripsByDriverIdAndStatus(driverId, status);
     }
 }
