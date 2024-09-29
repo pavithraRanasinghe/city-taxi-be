@@ -2,26 +2,24 @@ package com.esoft.citytaxi.dto.response;
 
 import com.esoft.citytaxi.enums.UserType;
 import com.esoft.citytaxi.models.AppUser;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class JwtResponse implements Serializable {
 
-    private final Long id;
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final String token;
-    private final UserType userType;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String token;
+    private UserType userType;
+    private Long driverId;
+    private Long passengerId;
 
-    public JwtResponse(AppUser appUser, String token) {
-        this.id = appUser.getId();
-        this.firstName = appUser.getFirstName();
-        this.lastName = appUser.getLastName();
-        this.email = appUser.getUsername();
-        this.token = token;
-        this.userType = appUser.getUserType();
-    }
 }

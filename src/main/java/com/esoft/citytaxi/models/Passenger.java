@@ -32,4 +32,9 @@ public class Passenger extends Audit implements Serializable {
     @ToString.Exclude
     @OneToMany(mappedBy = "passenger", orphanRemoval = true)
     private List<Trip> tripList;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToOne(mappedBy = "passenger", orphanRemoval = true)
+    private AppUser appUser;
 }

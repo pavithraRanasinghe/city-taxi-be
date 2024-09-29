@@ -2,6 +2,7 @@ package com.esoft.citytaxi.services;
 
 
 import com.esoft.citytaxi.dto.request.BasicUserRequest;
+import com.esoft.citytaxi.exceptions.NotFoundException;
 import com.esoft.citytaxi.models.Passenger;
 import com.esoft.citytaxi.repository.PassengerRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,19 +19,19 @@ public class PassengerService {
 
     private final PassengerRepository passengerRepository;
 
-    public void savePassenger(final BasicUserRequest userRequest){
+    public Passenger savePassenger(final BasicUserRequest userRequest){
         Passenger passenger = Passenger.builder()
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .contact(userRequest.getContact())
                 .build();
 
-        passengerRepository.save(passenger);
+        return passengerRepository.save(passenger);
     }
 
     public Passenger findById(final Long id){
         return passengerRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Passenger not found"));
+                .orElseThrow(()-> new NotFoundException("Passenger not found"));
     }
 
     public List<Passenger> findAll(){

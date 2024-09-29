@@ -51,4 +51,9 @@ public class Driver extends Audit implements Serializable {
 
     @Column(name = "status")
     private DriverStatus status;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @OneToOne(mappedBy = "driver", orphanRemoval = true)
+    private AppUser appUser;
 }

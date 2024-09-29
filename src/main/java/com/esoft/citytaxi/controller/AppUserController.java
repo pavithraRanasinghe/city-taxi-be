@@ -3,6 +3,7 @@ package com.esoft.citytaxi.controller;
 import com.esoft.citytaxi.dto.request.AppUserRequest;
 import com.esoft.citytaxi.dto.request.AuthRequest;
 import com.esoft.citytaxi.dto.response.JwtResponse;
+import com.esoft.citytaxi.enums.UserType;
 import com.esoft.citytaxi.models.AppUser;
 import com.esoft.citytaxi.security.JwtTokenUtil;
 import com.esoft.citytaxi.security.JwtUserDetailsService;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("v1/app-user")
@@ -34,7 +37,7 @@ public class AppUserController {
      * @return {@link ResponseEntity<AppUser>} Http response with the newly created app user
      */
     @PostMapping
-    public ResponseEntity<AppUser> register(@RequestBody final AppUserRequest appUserRequest){
+    public ResponseEntity<AppUser> register(@RequestBody final AppUserRequest appUserRequest) {
         AppUser appUser = appUserService.signUp(appUserRequest);
         return new ResponseEntity<>(appUser, HttpStatus.CREATED);
     }
@@ -44,25 +47,42 @@ public class AppUserController {
         AppUser existingUser = appUserService.authenticate(authRequest);
         final UserDetails userDetails = userDetailsService.loadUserByUsername(existingUser.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(existingUser, token));
+        JwtResponse response = JwtResponse.builder()
+                .id(existingUser.getId())
+                .firstName(existingUser.getFirstName())
+                .lastName(existingUser.getLastName())
+                .email(existingUser.getUsername())
+                .token(token)
+                .userType(existingUser.getUserType())
+                .driverId(Optional.of(existingUser)
+                        .filter(user -> UserType.DRIVER.equals(user.getUserType()))
+                        .map(user -> user.getDriver().getId())
+                        .orElse(null))
+                .passengerId(Optional.of(existingUser)
+                        .filter(user -> UserType.PASSENGER.equals(user.getUserType()))
+                        .map(user -> user.getPassenger().getId())
+                        .orElse(null))
+                .build();
+        return ResponseEntity.ok(response);
+
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity<?> forgotPassword(@PathVariable final String email){
+    public ResponseEntity<?> forgotPassword(@PathVariable final String email) {
         appUserService.forgotPassword(email);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{email}/verify-otp")
     public ResponseEntity<?> verifyOtp(@PathVariable final String email,
-                                       @RequestParam("otp") final int otp){
+                                       @RequestParam("otp") final int otp) {
         appUserService.verifyOtp(email, otp);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{email}/update-password")
     public ResponseEntity<?> verifyOtp(@PathVariable final String email,
-                                       @RequestParam("password") final String password){
+                                       @RequestParam("password") final String password) {
         appUserService.updatePassword(email, password);
         return ResponseEntity.ok().build();
     }

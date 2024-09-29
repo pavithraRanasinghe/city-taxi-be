@@ -37,4 +37,14 @@ public class AppUser extends Audit implements Serializable {
     @Column(name = "password_opt")
     public int passwordOtp;
 
+    @OneToOne
+    @ToString.Exclude
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
+
+    @OneToOne
+    @ToString.Exclude
+    @JoinColumn(name = "passenger_id")
+    private Passenger passenger;
+
 }

@@ -35,7 +35,7 @@ public class DriverController {
     @PutMapping("/update-location/{id}")
     public ResponseEntity<?> updateLocation(@PathVariable final Long id,
                                             @RequestParam("longitude") final double longitude,
-                                            @RequestParam("longitude") final double latitude){
+                                            @RequestParam("latitude") final double latitude){
         driverService.updateDriverLocation(id, longitude, latitude);
         return ResponseEntity.ok().build();
     }

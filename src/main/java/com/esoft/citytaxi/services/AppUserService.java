@@ -10,6 +10,8 @@ import com.esoft.citytaxi.exceptions.EntityNotFoundException;
 import com.esoft.citytaxi.exceptions.ExpectationFailedException;
 import com.esoft.citytaxi.exceptions.UnAuthorizedException;
 import com.esoft.citytaxi.models.AppUser;
+import com.esoft.citytaxi.models.Driver;
+import com.esoft.citytaxi.models.Passenger;
 import com.esoft.citytaxi.repository.AppUserRepository;
 import com.esoft.citytaxi.util.PasswordUtil;
 import freemarker.template.TemplateException;
@@ -58,15 +60,17 @@ public class AppUserService {
 
 
         if(UserType.DRIVER.equals(appUser.getUserType())){
-            driverService.saveDriver(BasicUserRequest.builder()
-                            .firstName(appUser.getFirstName())
-                            .lastName(appUser.getLastName())
-                            .contact(userRequest.getContact()).build());
-        }else if(UserType.PASSENGER.equals(appUser.getUserType())) {
-            passengerService.savePassenger(BasicUserRequest.builder()
+            Driver driver = driverService.saveDriver(BasicUserRequest.builder()
                     .firstName(appUser.getFirstName())
                     .lastName(appUser.getLastName())
                     .contact(userRequest.getContact()).build());
+            appUser.setDriver(driver);
+        }else if(UserType.PASSENGER.equals(appUser.getUserType())) {
+            Passenger passenger = passengerService.savePassenger(BasicUserRequest.builder()
+                    .firstName(appUser.getFirstName())
+                    .lastName(appUser.getLastName())
+                    .contact(userRequest.getContact()).build());
+            appUser.setPassenger(passenger);
         }
         return appUserRepository.save(appUser);
     }

@@ -24,6 +24,7 @@ public class DriverService {
                 .firstName(basicUserRequest.getFirstName())
                 .lastName(basicUserRequest.getLastName())
                 .contact(basicUserRequest.getContact())
+                .status(DriverStatus.AVAILABLE)
                 .build());
     }
 
@@ -35,7 +36,7 @@ public class DriverService {
     public void updateDriverLocation(final Long id, final double longitude, final double latitude) {
         Driver driver = findById(id);
         driver.setLocation(LocationUtil.mapToPoint(longitude, latitude));
-
+        driver.setStatus(DriverStatus.AVAILABLE);
         driverRepository.save(driver);
     }
 
