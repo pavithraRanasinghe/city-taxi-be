@@ -34,7 +34,7 @@ public class TripService {
         Passenger passenger = passengerService.findById(tripRequest.getPassengerId());
         Trip trip = Trip.builder()
                 .date(LocalDate.now())
-                .startTime(LocalTime.now())
+                .bookedTime(LocalTime.now())
                 .driver(driver)
                 .passenger(passenger)
                 .startLocation(LocationUtil.mapToPoint(tripRequest.getStartLongitude(), tripRequest.getStartLatitude()))
@@ -45,7 +45,7 @@ public class TripService {
 
         Trip startedTrip = tripRepository.save(trip);
 
-        driver.setStatus(DriverStatus.BUSY);
+        driver.setStatus(DriverStatus.AVAILABLE);
         driverService.updateDriver(driver);
 
         return startedTrip;
@@ -53,8 +53,18 @@ public class TripService {
 
     public void updateTripStatus(final Long id, final TripStatus status){
         Trip trip = findById(id);
-        trip.setStatus(status);
+        Driver driver = trip.getDriver();
+        Passenger passenger = trip.getPassenger();
+        if(status.equals(TripStatus.CONFIRM)){
+            driver.setStatus(DriverStatus.BUSY);
+            trip.setStartTime(LocalTime.now());
 
+            passenger.setOnTrip(true);
+        }
+
+        trip.setStatus(status);
+        driverService.updateDriver(driver);
+        passengerService.updatePassenger(passenger);
         tripRepository.save(trip);
     }
 

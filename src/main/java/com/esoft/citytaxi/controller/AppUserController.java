@@ -3,6 +3,7 @@ package com.esoft.citytaxi.controller;
 import com.esoft.citytaxi.dto.request.AppUserRequest;
 import com.esoft.citytaxi.dto.request.AuthRequest;
 import com.esoft.citytaxi.dto.response.JwtResponse;
+import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.enums.UserType;
 import com.esoft.citytaxi.models.AppUser;
 import com.esoft.citytaxi.security.JwtTokenUtil;
@@ -62,6 +63,13 @@ public class AppUserController {
                         .filter(user -> UserType.PASSENGER.equals(user.getUserType()))
                         .map(user -> user.getPassenger().getId())
                         .orElse(null))
+                .onTrip(Optional.of(existingUser)
+                        .filter(user -> UserType.DRIVER.equals(user.getUserType()))
+                        .map(user -> DriverStatus.BUSY.equals(user.getDriver().getStatus()))
+                        .orElseGet(() -> Optional.of(existingUser)
+                                .filter(user -> UserType.PASSENGER.equals(user.getUserType()))
+                                .map(user -> user.getPassenger().getOnTrip())
+                                .orElse(false)))
                 .build();
         return ResponseEntity.ok(response);
 

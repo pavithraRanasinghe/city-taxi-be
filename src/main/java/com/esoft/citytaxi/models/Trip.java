@@ -40,6 +40,12 @@ public class Trip extends Audit implements Serializable {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
 
+    @Column(name = "booked_time")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
+    private LocalTime bookedTime;
+
     @Column(name = "start_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @JsonSerialize(using = LocalTimeSerializer.class)

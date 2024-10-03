@@ -1,8 +1,13 @@
 package com.esoft.citytaxi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
+import org.locationtech.jts.geom.Point;
+import org.n52.jackson.datatype.jts.GeometryDeserializer;
+import org.n52.jackson.datatype.jts.GeometrySerializer;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,4 +42,12 @@ public class Passenger extends Audit implements Serializable {
     @ToString.Exclude
     @OneToOne(mappedBy = "passenger", orphanRemoval = true)
     private AppUser appUser;
+
+    @Column(name = "onTrip")
+    private Boolean onTrip;
+
+    @Column(name = "location")
+    @JsonSerialize(using = GeometrySerializer.class)
+    @JsonDeserialize(using = GeometryDeserializer.class)
+    private Point location;
 }

@@ -27,4 +27,12 @@ public class PassengerController {
     public List<Passenger> findAll(){
         return passengerService.findAll();
     }
+
+    @PutMapping("/update-location/{id}")
+    public ResponseEntity<?> updateLocation(@PathVariable final Long id,
+                                            @RequestParam("longitude") final double longitude,
+                                            @RequestParam("latitude") final double latitude){
+        passengerService.updatePassengerLocation(id, longitude, latitude);
+        return ResponseEntity.ok().build();
+    }
 }

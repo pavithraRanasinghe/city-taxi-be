@@ -21,5 +21,6 @@ public class JwtResponse implements Serializable {
     private UserType userType;
     private Long driverId;
     private Long passengerId;
+    private Boolean onTrip;
 
 }

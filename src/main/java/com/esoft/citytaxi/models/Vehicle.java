@@ -34,6 +34,12 @@ public class Vehicle extends Audit implements Serializable {
     @Column(name = "registration_number")
     private String registrationNumber;
 
+    @Column(name = "manufactured_year")
+    private Integer manufacturedYear;
+
+    @Column(name = "color")
+    private String color;
+
     @OneToOne
     @ToString.Exclude
     @JoinColumn(name = "driver_id")
