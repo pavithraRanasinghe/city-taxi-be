@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.request.TripRequest;
+import com.esoft.citytaxi.dto.response.BaseResponse;
 import com.esoft.citytaxi.dto.response.DriverActivityResponse;
 import com.esoft.citytaxi.enums.TripStatus;
 import com.esoft.citytaxi.models.Trip;
@@ -27,19 +28,22 @@ public class TripController {
         return new ResponseEntity<>(trip, HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable final Long id){
+        Trip trip = tripService.findById(id);
+        return ResponseEntity.ok(trip);
+    }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<?> updateStatus(@PathVariable final Long id,
                                           @RequestParam("status") final TripStatus status){
         tripService.updateTripStatus(id, status);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 
     @PutMapping("/{id}/end-trip")
-    public ResponseEntity<?> endTrip(@PathVariable final Long id,
-                                     @RequestParam("longitude") final double longitude,
-                                     @RequestParam("latitude") final double latitude,
-                                     @RequestParam("price") final double price){
-        Trip trip = tripService.endTrip(id, longitude, latitude, price);
+    public ResponseEntity<?> endTrip(@PathVariable final Long id){
+        Trip trip = tripService.endTrip(id);
         return new ResponseEntity<>(trip, HttpStatus.OK);
     }
     @GetMapping("/filter")
@@ -53,8 +57,14 @@ public class TripController {
         return tripService.getRecentTripsByDriver();
     }
 
-    @GetMapping("/trips/driver")
+    @GetMapping("/driver")
     public List<Trip> getTripsByDriverIdAndStatus(@RequestParam("driverId") Long driverId, @RequestParam("status") TripStatus status) {
         return tripService.getTripsByDriverIdAndStatus(driverId, status);
+    }
+
+    @GetMapping("/passenger")
+    public ResponseEntity<Trip> getConfirmedTripsByPassengerId(@RequestParam Long passengerId) {
+        Trip trip = tripService.getConfirmedTripsByPassengerId(passengerId);
+        return ResponseEntity.ok(trip);
     }
 }

@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.request.FileRequest;
+import com.esoft.citytaxi.dto.response.BaseResponse;
 import com.esoft.citytaxi.dto.response.FileResponse;
 import com.esoft.citytaxi.enums.ImageCategory;
 import com.esoft.citytaxi.models.FileDetail;
@@ -73,7 +74,7 @@ public class FileController {
                 FileDetail savedFile = fileService.store(fileRequest);
                 if (savedFile != null) {
                     log.info("File successfully uploaded to the server.");
-                    return ResponseEntity.ok().build();
+                    return ResponseEntity.ok(new BaseResponse("success"));
                 } else {
                     log.error("File uploading request failed.");
                     return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
@@ -130,6 +131,6 @@ public class FileController {
     public ResponseEntity<?> deleteFile(@PathVariable Long id) throws IOException {
         fileService.deleteFile(id);
         log.info("File delete successfully.");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 }

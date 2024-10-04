@@ -2,6 +2,7 @@ package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.request.AppUserRequest;
 import com.esoft.citytaxi.dto.request.AuthRequest;
+import com.esoft.citytaxi.dto.response.BaseResponse;
 import com.esoft.citytaxi.dto.response.JwtResponse;
 import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.enums.UserType;
@@ -78,20 +79,20 @@ public class AppUserController {
     @PutMapping("/{email}")
     public ResponseEntity<?> forgotPassword(@PathVariable final String email) {
         appUserService.forgotPassword(email);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 
     @PutMapping("/{email}/verify-otp")
     public ResponseEntity<?> verifyOtp(@PathVariable final String email,
                                        @RequestParam("otp") final int otp) {
         appUserService.verifyOtp(email, otp);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 
     @PutMapping("/{email}/update-password")
     public ResponseEntity<?> verifyOtp(@PathVariable final String email,
                                        @RequestParam("password") final String password) {
         appUserService.updatePassword(email, password);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 }

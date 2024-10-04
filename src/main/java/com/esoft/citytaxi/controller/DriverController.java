@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.request.BasicUserRequest;
+import com.esoft.citytaxi.dto.response.BaseResponse;
 import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.services.DriverService;
@@ -37,7 +38,7 @@ public class DriverController {
                                             @RequestParam("longitude") final double longitude,
                                             @RequestParam("latitude") final double latitude){
         driverService.updateDriverLocation(id, longitude, latitude);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 
     @GetMapping("/{id}")

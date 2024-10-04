@@ -1,5 +1,6 @@
 package com.esoft.citytaxi.controller;
 
+import com.esoft.citytaxi.dto.response.BaseResponse;
 import com.esoft.citytaxi.models.Passenger;
 import com.esoft.citytaxi.services.PassengerService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,6 @@ public class PassengerController {
                                             @RequestParam("longitude") final double longitude,
                                             @RequestParam("latitude") final double latitude){
         passengerService.updatePassengerLocation(id, longitude, latitude);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new BaseResponse("success"));
     }
 }

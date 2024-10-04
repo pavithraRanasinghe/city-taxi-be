@@ -4,6 +4,7 @@ import com.esoft.citytaxi.dto.request.TripRequest;
 import com.esoft.citytaxi.dto.response.DriverActivityResponse;
 import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.enums.TripStatus;
+import com.esoft.citytaxi.exceptions.NotFoundException;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.models.Passenger;
 import com.esoft.citytaxi.models.Trip;
@@ -39,7 +40,9 @@ public class TripService {
                 .passenger(passenger)
                 .startLocation(LocationUtil.mapToPoint(tripRequest.getStartLongitude(), tripRequest.getStartLatitude()))
                 .startLocationName(tripRequest.getStartLocationName())
+                .endLocation(LocationUtil.mapToPoint(tripRequest.getEndLongitude(), tripRequest.getEndLongitude()))
                 .endLocationName(tripRequest.getEndLocationName())
+                .price(tripRequest.getPrice())
                 .status(TripStatus.PENDING)
                 .build();
 
@@ -73,12 +76,19 @@ public class TripService {
                 .orElseThrow(()-> new EntityNotFoundException("Trip not found"));
     }
 
-    public Trip endTrip(final Long id, final double endLongitude, final double endLatitude, final double price){
+    public Trip endTrip(final Long id){
         Trip trip = findById(id);
-        trip.setEndLocation(LocationUtil.mapToPoint(endLongitude,endLatitude));
-        trip.setPrice(price);
+        Driver driver = trip.getDriver();
+        Passenger passenger = trip.getPassenger();
+
         trip.setStatus(TripStatus.COMPLETE);
         trip.setEndTime(LocalTime.now());
+
+        driver.setStatus(DriverStatus.AVAILABLE);
+        driverService.updateDriver(driver);
+
+        passenger.setOnTrip(false);
+        passengerService.updatePassenger(passenger);
 
         return tripRepository.save(trip);
     }
@@ -118,5 +128,10 @@ public class TripService {
 
     public List<Trip> getTripsByDriverIdAndStatus(Long driverId, TripStatus status) {
         return tripRepository.findTripsByDriverIdAndStatus(driverId, status);
+    }
+
+    public Trip getConfirmedTripsByPassengerId(Long passengerId) {
+        return tripRepository.findTripsByPassengerIdAndStatus(passengerId, TripStatus.CONFIRM)
+                .orElseThrow(()-> new NotFoundException("Started trip not found"));
     }
 }

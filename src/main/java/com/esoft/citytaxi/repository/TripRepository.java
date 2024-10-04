@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
@@ -32,4 +33,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     @Query("SELECT t FROM trip t WHERE t.driver.id = :driverId AND t.status = :status")
     List<Trip> findTripsByDriverIdAndStatus(@Param("driverId") Long driverId, @Param("status") TripStatus status);
+
+    @Query("SELECT t FROM trip t WHERE t.passenger.id = :passengerId AND t.status = :status")
+    Optional<Trip> findTripsByPassengerIdAndStatus(@Param("passengerId") Long passengerId, @Param("status") TripStatus status);
 }
