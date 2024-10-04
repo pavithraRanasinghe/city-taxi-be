@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,6 +25,9 @@ public class DriverActivityResponse implements Serializable {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime startTime;
     private TripStatus status;
     private String startLocationName;

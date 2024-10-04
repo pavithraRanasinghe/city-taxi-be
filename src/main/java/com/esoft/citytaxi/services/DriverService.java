@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.services;
 
 import com.esoft.citytaxi.dto.request.BasicUserRequest;
+import com.esoft.citytaxi.dto.response.DriverResponse;
 import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.repository.DriverRepository;
@@ -8,16 +9,22 @@ import com.esoft.citytaxi.util.LocationUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class DriverService {
 
     private final DriverRepository driverRepository;
+    private final FeedbackService feedbackService;
+
+    public DriverService(DriverRepository driverRepository, @Lazy FeedbackService feedbackService) {
+        this.driverRepository = driverRepository;
+        this.feedbackService = feedbackService;
+    }
 
     public Driver saveDriver(final BasicUserRequest basicUserRequest) {
         return driverRepository.save(Driver.builder()
@@ -47,8 +54,17 @@ public class DriverService {
         driverRepository.save(driver);
     }
 
-    public List<Driver> findAll(){
-        return driverRepository.findAll();
+    public List<DriverResponse> findAll(){
+        return driverRepository.findAll().stream().map(driver -> new DriverResponse(
+                driver.getId(),
+                driver.getFirstName(),
+                driver.getLastName(),
+                driver.getContact(),
+                driver.getLocation(),
+                driver.getVehicle(),
+                driver.getStatus(),
+                feedbackService.getAverageRatingByDriverId(driver.getId())
+        )).toList();
     }
 
     public long count(){

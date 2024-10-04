@@ -2,6 +2,7 @@ package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.request.BasicUserRequest;
 import com.esoft.citytaxi.dto.response.BaseResponse;
+import com.esoft.citytaxi.dto.response.DriverResponse;
 import com.esoft.citytaxi.enums.DriverStatus;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.services.DriverService;
@@ -48,7 +49,7 @@ public class DriverController {
     }
 
     @GetMapping
-    public List<Driver> findAll(){
+    public List<DriverResponse> findAll(){
         return driverService.findAll();
     }
 

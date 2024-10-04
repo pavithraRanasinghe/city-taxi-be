@@ -52,7 +52,7 @@ public class TripController {
         return tripService.filterAllTripByDriverAndPassenger(driverId, passengerId);
     }
 
-    @GetMapping("recent-activity")
+    @GetMapping("/recent-activity")
     public List<DriverActivityResponse> findRecentDriverActivity(){
         return tripService.getRecentTripsByDriver();
     }
