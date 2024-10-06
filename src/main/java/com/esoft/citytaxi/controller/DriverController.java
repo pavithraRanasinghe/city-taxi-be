@@ -29,7 +29,7 @@ public class DriverController {
     }
 
     @GetMapping("/search")
-    public List<Driver> searchDrivers(@RequestParam("longitude") final Double longitude,
+    public List<DriverResponse> searchDrivers(@RequestParam("longitude") final Double longitude,
                                       @RequestParam("latitude") final Double latitude){
         return driverService.searchDrivers(longitude, latitude);
     }

@@ -35,9 +35,18 @@ public class DriverService {
                 .build());
     }
 
-    public List<Driver> searchDrivers(final Double longitude, final Double latitude) {
+    public List<DriverResponse> searchDrivers(final Double longitude, final Double latitude) {
         final double distance = 0.2;
-        return driverRepository.searchDrivers(longitude, latitude, distance);
+        return driverRepository.searchDrivers(longitude, latitude, distance).stream().map(driver -> new DriverResponse(
+                driver.getId(),
+                driver.getFirstName(),
+                driver.getLastName(),
+                driver.getContact(),
+                driver.getLocation(),
+                driver.getVehicle(),
+                driver.getStatus(),
+                feedbackService.getAverageRatingByDriverId(driver.getId())
+        )).toList();
     }
 
     public void updateDriverLocation(final Long id, final double longitude, final double latitude) {

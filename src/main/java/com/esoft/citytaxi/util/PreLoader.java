@@ -29,6 +29,17 @@ public class PreLoader {
 
                 userRepository.save(appUser);
             }
+            if (userRepository.findByUsername("operator@esoft.lk").isEmpty()) {
+                final AppUser appUser = AppUser.builder()
+                        .firstName("Admin")
+                        .lastName("Operator")
+                        .username("operator@esoft.lk")
+                        .userType(UserType.OPERATOR)
+                        .password(passwordEncoder.encode("Operator1234"))
+                        .build();
+
+                userRepository.save(appUser);
+            }
         };
     }
 }

@@ -1,5 +1,6 @@
 package com.esoft.citytaxi.controller;
 
+import com.esoft.citytaxi.dto.request.OperatorTripRequest;
 import com.esoft.citytaxi.dto.request.TripRequest;
 import com.esoft.citytaxi.dto.response.BaseResponse;
 import com.esoft.citytaxi.dto.response.DriverActivityResponse;
@@ -25,6 +26,12 @@ public class TripController {
     @PostMapping
     public ResponseEntity<?> startTrip(@RequestBody final TripRequest tripRequest){
         Trip trip = tripService.startTrip(tripRequest);
+        return new ResponseEntity<>(trip, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/call-operator/booking")
+    public ResponseEntity<?> booking(@RequestBody final OperatorTripRequest tripRequest){
+        Trip trip = tripService.bookTripByOperator(tripRequest);
         return new ResponseEntity<>(trip, HttpStatus.CREATED);
     }
 
