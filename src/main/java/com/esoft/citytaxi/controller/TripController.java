@@ -67,4 +67,9 @@ public class TripController {
         Trip trip = tripService.getConfirmedTripsByPassengerId(passengerId);
         return ResponseEntity.ok(trip);
     }
+
+    @GetMapping("/passenger/{id}")
+    public List<Trip> findAllTripByPassenger(@PathVariable Long id) {
+        return tripService.findAllTripByPassengerId(id);
+    }
 }

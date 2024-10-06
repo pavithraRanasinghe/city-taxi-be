@@ -134,4 +134,8 @@ public class TripService {
         return tripRepository.findTripsByPassengerIdAndStatus(passengerId, TripStatus.CONFIRM)
                 .orElseThrow(()-> new NotFoundException("Started trip not found"));
     }
+
+    public List<Trip> findAllTripByPassengerId(Long passengerId){
+        return tripRepository.findTripsByPassengerId(passengerId);
+    }
 }

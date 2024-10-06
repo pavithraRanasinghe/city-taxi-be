@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.controller;
 
 import com.esoft.citytaxi.dto.response.BaseResponse;
+import com.esoft.citytaxi.dto.response.PassengerResponse;
 import com.esoft.citytaxi.models.Passenger;
 import com.esoft.citytaxi.services.PassengerService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class PassengerController {
     }
 
     @GetMapping
-    public List<Passenger> findAll(){
+    public List<PassengerResponse> findAll(){
         return passengerService.findAll();
     }
 

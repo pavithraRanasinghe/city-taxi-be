@@ -36,4 +36,8 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
 
     @Query("SELECT t FROM trip t WHERE t.passenger.id = :passengerId AND t.status = :status")
     Optional<Trip> findTripsByPassengerIdAndStatus(@Param("passengerId") Long passengerId, @Param("status") TripStatus status);
+
+    @Query("SELECT t FROM trip t WHERE t.passenger.id = :passengerId")
+    List<Trip> findTripsByPassengerId(@Param("passengerId") Long passengerId);
+
 }
