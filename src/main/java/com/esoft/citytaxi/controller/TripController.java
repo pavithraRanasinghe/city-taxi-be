@@ -72,4 +72,14 @@ public class TripController {
     public List<Trip> findAllTripByPassenger(@PathVariable Long id) {
         return tripService.findAllTripByPassengerId(id);
     }
+
+    @GetMapping("/status/driver")
+    public List<Trip> getTripsByStatusAndDriverId(@RequestParam(name = "status") TripStatus status, @RequestParam(name = "id") Long id) {
+        return tripService.getTripsByStatusAndDriverId(status, id);
+    }
+
+    @GetMapping("/status/passenger")
+    public List<Trip> getTripsByStatusAndPassengerId(@RequestParam(name = "status") TripStatus status, @RequestParam(name = "id") Long id) {
+        return tripService.getTripsByStatusAndPassengerId(status, id);
+    }
 }

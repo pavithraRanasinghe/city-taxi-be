@@ -138,4 +138,12 @@ public class TripService {
     public List<Trip> findAllTripByPassengerId(Long passengerId){
         return tripRepository.findTripsByPassengerId(passengerId);
     }
+
+    public List<Trip> getTripsByStatusAndDriverId(TripStatus status, Long driverId) {
+        return tripRepository.findTripsByStatusAndDriverId(status, driverId);
+    }
+
+    public List<Trip> getTripsByStatusAndPassengerId(TripStatus status, Long passengerId) {
+        return tripRepository.findTripsByStatusAndPassengerId(status, passengerId);
+    }
 }
