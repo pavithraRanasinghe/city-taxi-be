@@ -98,7 +98,7 @@ public class TripService {
     }
 
     public long countOngoingTrips() {
-        List<TripStatus> ongoingStatuses = Arrays.asList(TripStatus.CONFIRM, TripStatus.START);
+        List<TripStatus> ongoingStatuses = List.of(TripStatus.CONFIRM);
         return tripRepository.countOngoingTrips(ongoingStatuses);
     }
 

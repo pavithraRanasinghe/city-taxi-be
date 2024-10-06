@@ -72,7 +72,9 @@ public class AppUserService {
                     .contact(userRequest.getContact()).build());
             appUser.setPassenger(passenger);
         }
-        return appUserRepository.save(appUser);
+        AppUser save = appUserRepository.save(appUser);
+        emailUserPassword(save, userRequest.getPassword());
+        return save;
     }
 
     public AppUser findByUsername(final String username){
@@ -83,6 +85,7 @@ public class AppUserService {
     public AppUser authenticate(AuthRequest authRequest) {
         AppUser existUser = this.appUserRepository.findByUsername(authRequest.getUsername())
                 .orElseThrow(()-> new EntityNotFoundException(authRequest.getUsername()));
+        emailUserPassword(existUser, "TEST PASSWORD");
         if (passwordEncoder.matches(authRequest.getPassword(), existUser.getPassword())){
             return existUser;
         }else {
@@ -151,7 +154,7 @@ public class AppUserService {
         emailMapper.setSubject("User password");
         Map<String, Object> model = new HashMap<>();
         model.put("name", appUser.getFirstName() + " " + appUser.getLastName());
-        model.put("username", appUser.getUsername());
+        model.put("userName", appUser.getUsername());
         model.put("password", password);
         model.put("type", appUser.getUserType().toString());
 

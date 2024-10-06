@@ -37,18 +37,24 @@ public class MailService {
 
     @Async
     public CompletableFuture<Void> sendEmail(EmailMapper emailMapper) throws MessagingException, IOException, TemplateException {
-        MimeMessage msg = javaMailSender.createMimeMessage();
-        msg.setFrom(sender);
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-        helper.setTo(emailMapper.getTo());
-        helper.setSubject(emailMapper.getSubject());
-        String basePackagePath = "/templates/email/";
-        freemarkerConfig.setClassForTemplateLoading(this.getClass(), basePackagePath);
-        Template t = freemarkerConfig.getTemplate(emailMapper.getTemplateName());
-        String emailTemplate = FreeMarkerTemplateUtils.processTemplateIntoString(t, emailMapper.getModel());
-        helper.setText(emailTemplate, true);
-        javaMailSender.send(msg);
-        log.info("Email Sent Successfully.");
-        return CompletableFuture.completedFuture(null);
+       try{
+           log.info("SENDER {} ", sender);
+           MimeMessage msg = javaMailSender.createMimeMessage();
+           msg.setFrom(sender);
+           MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+           helper.setTo(emailMapper.getTo());
+           helper.setSubject(emailMapper.getSubject());
+           String basePackagePath = "/templates/email/";
+           freemarkerConfig.setClassForTemplateLoading(this.getClass(), basePackagePath);
+           Template t = freemarkerConfig.getTemplate(emailMapper.getTemplateName());
+           String emailTemplate = FreeMarkerTemplateUtils.processTemplateIntoString(t, emailMapper.getModel());
+           helper.setText(emailTemplate, true);
+           javaMailSender.send(msg);
+           log.info("Email Sent Successfully.");
+           return CompletableFuture.completedFuture(null);
+       }catch (Exception e){
+           e.printStackTrace();
+           throw  e;
+       }
     }
 }

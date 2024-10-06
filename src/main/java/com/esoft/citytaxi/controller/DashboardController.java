@@ -39,7 +39,7 @@ public class DashboardController {
 
     @GetMapping("/{driverId}")
     public ResponseEntity<?> dashboardDetails(@PathVariable Long driverId){
-        List<TripStatus> ongoingStatuses = Arrays.asList(TripStatus.CONFIRM, TripStatus.START, TripStatus.PENDING);
+        List<TripStatus> ongoingStatuses = Arrays.asList(TripStatus.CONFIRM, TripStatus.PENDING);
         DriverDashboardResponse adminDashboardResponse = DriverDashboardResponse.builder()
                 .completedTripCount(tripService.getTripCountByDriverIdAndStatusList(driverId, List.of(TripStatus.COMPLETE)))
                 .onGoingTripCount(tripService.getTripCountByDriverIdAndStatusList(driverId,ongoingStatuses))
