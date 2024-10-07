@@ -22,7 +22,6 @@ public class FeedbackController {
 
     @PostMapping
     public ResponseEntity<?> saveFeedback(@RequestBody FeedbackRequest feedbackRequest){
-        log.info("test");
         Feedback feedback = feedbackService.saveFeedback(feedbackRequest);
         return new ResponseEntity<>(feedback, HttpStatus.CREATED);
     }

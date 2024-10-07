@@ -42,9 +42,10 @@ public class TripService {
                 .passenger(passenger)
                 .startLocation(LocationUtil.mapToPoint(tripRequest.getStartLongitude(), tripRequest.getStartLatitude()))
                 .startLocationName(tripRequest.getStartLocationName())
-                .endLocation(LocationUtil.mapToPoint(tripRequest.getEndLongitude(), tripRequest.getEndLongitude()))
+                .endLocation(LocationUtil.mapToPoint(tripRequest.getEndLongitude(), tripRequest.getEndLatitude()))
                 .endLocationName(tripRequest.getEndLocationName())
                 .price(tripRequest.getPrice())
+                .distance(tripRequest.getDistance())
                 .status(TripStatus.PENDING)
                 .build();
 
@@ -177,5 +178,9 @@ public class TripService {
         driverService.updateDriver(driver);
 
         return startedTrip;
+    }
+
+    public List<Trip> findAllTripByStatus(final TripStatus status){
+        return tripRepository.findTripsByStatus(status);
     }
 }

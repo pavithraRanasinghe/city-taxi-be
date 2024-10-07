@@ -36,7 +36,7 @@ public class DriverService {
     }
 
     public List<DriverResponse> searchDrivers(final Double longitude, final Double latitude) {
-        final double distance = 0.2;
+        final double distance = 123;
         return driverRepository.searchDrivers(longitude, latitude, distance).stream().map(driver -> new DriverResponse(
                 driver.getId(),
                 driver.getFirstName(),
@@ -85,6 +85,11 @@ public class DriverService {
         driver.setStatus(status);
 
         return driverRepository.save(driver);
+    }
+
+    public Driver findByVehicleId(final Long vehicleId){
+        return driverRepository.findDriverByVehicleId(vehicleId)
+                .orElse(null);
     }
 
 }

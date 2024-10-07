@@ -20,4 +20,5 @@ public class TripRequest implements Serializable {
     private Long driverId;
     private Long passengerId;
     private double price;
+    private double distance;
 }

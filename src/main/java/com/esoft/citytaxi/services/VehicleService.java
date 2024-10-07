@@ -1,6 +1,7 @@
 package com.esoft.citytaxi.services;
 
 import com.esoft.citytaxi.dto.request.VehicleRequest;
+import com.esoft.citytaxi.dto.response.VehicleResponse;
 import com.esoft.citytaxi.exceptions.NotFoundException;
 import com.esoft.citytaxi.models.Driver;
 import com.esoft.citytaxi.models.Vehicle;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,5 +52,24 @@ public class VehicleService {
         driverService.updateDriver(driver);
 
         return saved;
+    }
+
+    public List<VehicleResponse> findAll(){
+        return vehicleRepository.findAll().stream().map(vehicle -> {
+
+            Driver driver = driverService.findByVehicleId(vehicle.getId());
+
+            return VehicleResponse.builder()
+                    .id(vehicle.getId())
+                    .name(vehicle.getName())
+                    .type(vehicle.getType())
+                    .model(vehicle.getModel())
+                    .color(vehicle.getColor())
+                    .manufacturedYear(vehicle.getManufacturedYear())
+                    .registrationNumber(vehicle.getRegistrationNumber())
+                    .vehicleNumber(vehicle.getVehicleNumber())
+                    .driver(driver).build();
+                }
+        ).toList();
     }
 }

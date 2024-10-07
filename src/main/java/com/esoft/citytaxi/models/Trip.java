@@ -89,7 +89,10 @@ public class Trip extends Audit implements Serializable {
     private Passenger passenger;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
+
+    @Column(name = "distance")
+    private Double distance;
 
     @JsonIgnore
     @ToString.Exclude

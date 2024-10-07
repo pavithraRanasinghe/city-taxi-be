@@ -69,7 +69,7 @@ public class TripController {
         return tripService.getTripsByDriverIdAndStatus(driverId, status);
     }
 
-    @GetMapping("/passenger")
+    @GetMapping("/confirmed-trip")
     public ResponseEntity<Trip> getConfirmedTripsByPassengerId(@RequestParam Long passengerId) {
         Trip trip = tripService.getConfirmedTripsByPassengerId(passengerId);
         return ResponseEntity.ok(trip);
@@ -88,5 +88,10 @@ public class TripController {
     @GetMapping("/status/passenger")
     public List<Trip> getTripsByStatusAndPassengerId(@RequestParam(name = "status") TripStatus status, @RequestParam(name = "id") Long id) {
         return tripService.getTripsByStatusAndPassengerId(status, id);
+    }
+
+    @GetMapping("/status/admin")
+    public List<Trip> getTripsByStatusAndDriverId(@RequestParam(name = "status") TripStatus status) {
+        return tripService.findAllTripByStatus(status);
     }
 }

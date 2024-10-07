@@ -27,7 +27,7 @@ public class Audit {
 
     @JsonIgnore
     @CreatedBy
-    @Column(name = "created_by", nullable = false, updatable = false, length = 25)
+    @Column(name = "created_by", nullable = false, updatable = false, length = 255)
     private String createdBy;
 
     @JsonIgnore
@@ -37,7 +37,7 @@ public class Audit {
 
     @JsonIgnore
     @LastModifiedBy
-    @Column(name = "modified_by", length = 25)
+    @Column(name = "modified_by", length = 255)
     private String modifiedBy;
 
     @JsonIgnore
