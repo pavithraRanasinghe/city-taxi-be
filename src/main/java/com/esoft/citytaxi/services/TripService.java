@@ -166,7 +166,7 @@ public class TripService {
                 .passenger(passenger)
                 .startLocation(LocationUtil.mapToPoint(tripRequest.getStartLongitude(), tripRequest.getStartLatitude()))
                 .startLocationName(tripRequest.getStartLocationName())
-                .endLocation(LocationUtil.mapToPoint(tripRequest.getEndLongitude(), tripRequest.getEndLongitude()))
+                .endLocation(LocationUtil.mapToPoint(tripRequest.getEndLongitude(), tripRequest.getEndLatitude()))
                 .endLocationName(tripRequest.getEndLocationName())
                 .price(tripRequest.getPrice())
                 .status(TripStatus.PENDING)
